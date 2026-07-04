@@ -5,12 +5,25 @@ import toast from 'react-hot-toast';
 import { getCandidateById, createCandidate, updateCandidate } from '../../services/api';
 
 const COURSES = [
-  'IT Software Development',
-  'IT Support & Networking',
-  'Linux Administration',
-  'Windows Server Administration',
-  'AWS Cloud Practitioner',
-  'Data Analytics with Python',
+  'Java',
+  'Python',
+  'MERN Stack',
+  'ReactJS',
+  'Angular',
+  'Flutter',
+  'Kotlin',
+  'AI / ML',
+  'Salesforce',
+  'MuleSoft',
+  'C',
+  'C++',
+  'Desktop Support',
+  'Network Support',
+  'Linux',
+  'AWS',
+  'Wintel',
+  'AutoCAD',
+  'CATIA',
 ];
 
 const EMPTY = {
