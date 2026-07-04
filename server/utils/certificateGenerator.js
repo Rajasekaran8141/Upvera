@@ -20,14 +20,30 @@ const H = 595.28;   // A4 landscape height (pt)
 
 function formatDate(d) {
   if (!d) return '';
-  return new Date(d).toLocaleDateString('en-IN', {
-    day: '2-digit', month: 'long', year: 'numeric',
+  const date = parseCalendarDate(d);
+  if (!date) return String(d);
+  return date.toLocaleDateString('en-IN', {
+    day: '2-digit', month: 'long', year: 'numeric', timeZone: 'UTC',
   });
 }
 
+function parseCalendarDate(d) {
+  if (!d) return null;
+  if (d instanceof Date) {
+    return new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate()));
+  }
+  const match = String(d).match(/^(\d{4})-(\d{2})-(\d{2})/);
+  if (!match) {
+    const parsed = new Date(d);
+    return Number.isNaN(parsed.getTime()) ? null : parsed;
+  }
+  return new Date(Date.UTC(Number(match[1]), Number(match[2]) - 1, Number(match[3])));
+}
+
 function calcDuration(start, end) {
-  const s = new Date(start), e = new Date(end);
-  const days = Math.ceil(Math.abs(e - s) / 86400000);
+  const s = parseCalendarDate(start), e = parseCalendarDate(end);
+  if (!s || !e) return '';
+  const days = Math.floor(Math.abs(e - s) / 86400000) + 1;
   if (days < 30) return `${days} Day${days !== 1 ? 's' : ''}`;
   const months = Math.floor(days / 30);
   const rem    = days % 30;

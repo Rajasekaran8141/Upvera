@@ -9,6 +9,7 @@ import {
   getCandidates, deleteCandidate,
   generateCertificate, downloadCertificate,
 } from '../../services/api';
+import { formatCalendarDate } from '../../utils/date';
 
 const PAGE_SIZE = 10;
 
@@ -174,8 +175,8 @@ export default function CandidateList() {
                         </span>
                       </td>
                       <td className="px-5 py-4 text-slate-500 text-xs whitespace-nowrap">
-                        <p>{new Date(c.start_date).toLocaleDateString('en-IN')}</p>
-                        <p>{new Date(c.end_date).toLocaleDateString('en-IN')}</p>
+                        <p>{formatCalendarDate(c.start_date, { month: 'short' })}</p>
+                        <p>{formatCalendarDate(c.end_date, { month: 'short' })}</p>
                       </td>
                       <td className="px-5 py-4">
                         {c.certificate_number ? (

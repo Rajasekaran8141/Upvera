@@ -6,6 +6,7 @@ import {
   User, BookOpen, Calendar, Award, XCircle, QrCode,
 } from 'lucide-react';
 import { verifyCertificate, downloadCertificate } from '../services/api';
+import { formatCalendarDate } from '../utils/date';
 
 function Field({ label, value, icon: Icon }) {
   return (
@@ -55,10 +56,7 @@ export default function Verify() {
   };
 
   const fmtDate = d => {
-    if (!d) return '—';
-    const date = new Date(d);
-    if (isNaN(date)) return d;
-    return date.toLocaleDateString('en-IN', { day: '2-digit', month: 'long', year: 'numeric' });
+    return formatCalendarDate(d);
   };
 
   const handleDownload = async () => {
