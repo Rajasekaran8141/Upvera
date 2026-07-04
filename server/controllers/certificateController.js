@@ -6,11 +6,13 @@ const { generateCertificatePdf } = require('../utils/certificateGenerator');
 
 async function nextCertNumber() {
   const year = new Date().getFullYear();
-  const [[{ cnt }]] = await pool.query(
-    `SELECT COUNT(*) AS cnt FROM certificates WHERE certificate_number LIKE ?`,
+  const [[{ max_seq }]] = await pool.query(
+    `SELECT MAX(CAST(SUBSTRING_INDEX(certificate_number, '-', -1) AS UNSIGNED)) AS max_seq
+     FROM certificates
+     WHERE certificate_number LIKE ?`,
     [`UV-${year}-%`]
   );
-  return `UV-${year}-${String(cnt + 1).padStart(6, '0')}`;
+  return `UV-${year}-${String((max_seq || 0) + 1).padStart(6, '0')}`;
 }
 
 // POST /api/certificates/generate/:candidateId
